@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>html Table</title>
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}"> -->
+    <style>
+        * {
+            text-align: center;
+            font-family: sans-serif;
+        }
+        .box {
+            margin: 20px auto;
+            width: 350px;
+            height: 350px;
+        }
+        .info {
+            padding-top: 130px;
+        }
+        .but  {
+            margin: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <h2>Welcome to the Great Number Game!</h2>
+    <p>I am thinking of a number between 1 and 100.</p>
+    <p>Take a guess!</p>
+    {% if 'color' in session: %}
+        <div class="box" style="background-color: {{ session['color'] }}">
+            <div class="info">
+                <h1>{{ session['message'] }}</h1>
+
+                {% if session['color'] == 'green': %}
+                    <p>You did it while only guessing {{ session['tries'] }} times!!</p>
+                    <a href="/destroy"><button>play again</button></a>
+                {% endif %}
+
+                {% if session['color'] == 'yellow' %}
+                    <a href="/destroy"><button>play again</button></a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+    {% if session['color'] != 'green'%}
+        {% if session['color'] != 'yellow' %}
+        <form action="/theguess" method="post">
+            <input type="text" name="guess">
+            <input type="submit" value="submit guess">
+        </form>
+        {% endif %}
+    {% endif %}
+    {% if session['color'] == 'red': %}
+        <div class="but"><a href="/destroy"><button>new number</button></a></div>
+    {% endif %}
+</body>
+</html>
